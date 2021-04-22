@@ -1832,4 +1832,13 @@ a.fc-more:hover {
     justify-items: center;
 }
 
+/* Barra de adicionar produtos */
+.add-search{
+    outline: none;
+    border: 1px solid rgba(77, 68, 68, 0.309);
+    border-radius: 5px;
+    padding-left: 15px;
+    margin-right: 5px;
+}
+
 /* Jeito para navegador */
