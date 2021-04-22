@@ -1820,5 +1820,16 @@ a.fc-more:hover {
     background-color: #eee
 }
 
+/* MEU STYLE */
+
+.text-center{
+    text-align: center;
+}
+.a-item-center{
+    align-items: center;
+}
+.j-item-center{
+    justify-items: center;
+}
 
 /* Jeito para navegador */

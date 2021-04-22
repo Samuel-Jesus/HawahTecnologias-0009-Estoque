@@ -98,9 +98,22 @@
         </div>
         <!-- Menu de páginas -->
         <ul class="sidebar-menu scrollable pos-r">
-          <li class="nav-item mT-30 active"><a class="sidebar-link" href="#"><span class="icon-holder"><i class="c-blue-500 ti-package"></i> </span>
+          <li class="nav-item mT-30 active"><a class="sidebar-link" href="#"><span class="icon-holder"><i class="c-blue-500 ti-package"></i></span>
             <span class="title">Estoque</span></a>
           </li>
+          <li class="nav-item ">
+            <a href="#" class="sidebar-link" data-toggle="modal" data-target="#cadproduto">
+              <span class="icon-holder"><i class="c-blue-500 ti-plus"></i></span>
+              <span class="title"><div class="peer "><button type="button" class="btn cur-p btn-outline-info "><i class="c-blank-500 ti-plus"></i> Cadastrar Produto</button></div></span>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="#" class="sidebar-link" data-toggle="modal" data-target="#caduser" >
+              <span class="icon-holder"><i class="c-blue-500 ti-user"></i></span>
+              <span class="title"><div class="peer "><button type="button" class="btn cur-p btn-outline-dark" ><i class="c-blank-500 ti-user"></i> Adicionar Usuário</button></div></span>
+            </a>
+          </li>
+          
         </ul>
         <!-- FINAL MENU DE PAGINAS -->
       </div>
@@ -183,38 +196,84 @@
       <main class="main-content bgc-grey-100">
         <!-- Página dos Conteúdos -->
         <div id="mainContent">
-          <div class="row gap-20 masonry pos-r">
-            <div class="masonry-sizer col-md-6"></div>
-            <div class="masonry-item w-100">
-              <div class="row gap-20">
-                asdhasd
-              </div>
-            </div>
-            <div class="masonry-item col-12">
-              <div class="bd bgc-white p-20">
-               Box 12 Mansory-item
-              </div>
-            </div>
-            <div class="masonry-item col-md-6">
-              <div class="bd bgc-white p-20">
-                <div class="layers">
-                  <div class="layer w-100 ">
-                    Box 6 Mansory-item
-                  </div>
+          <div class="container-fluid">
+            <h4 class="c-grey-900 mT-10 mB-30">Meu estoque</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                  <h4 class="c-grey-900 mB-20">Produtos</h4>
+                  <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Código</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Cor</th>
+                        <th>Descrição</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Código</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Cor</th>
+                        <th>Descrição</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr class="text-center" >
+                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
+                        <td>Capa asdasdasd</td>
+                        <td>Apple</td>
+                        <td >654546</td>
+                        <td>R$25,50</td>
+                        <td>50</td>
+                        <td>Celular</td>
+                        <td>Marquicell</td>
+                        <td>Dourado</td>
+                        <td>Capa com tecido unico com problemas resolvidos e pá</td>
+                      </tr>
+                      <tr class="text-center" >
+                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
+                        <td>Capa asdasdasd</td>
+                        <td>Apple</td>
+                        <td >654546</td>
+                        <td>R$25,50</td>
+                        <td>50</td>
+                        <td>Celular</td>
+                        <td>Marquicell</td>
+                        <td>Dourado</td>
+                        <td>Capa com tecido unico com problemas resolvidos e pá</td>
+                      </tr>
+                      <tr class="text-center" >
+                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
+                        <td>Capa asdasdasd</td>
+                        <td>Apple</td>
+                        <td >654546</td>
+                        <td>R$25,50</td>
+                        <td>50</td>
+                        <td>Celular</td>
+                        <td>Marquicell</td>
+                        <td>Dourado</td>
+                        <td>Capa com tecido unicó com problemas resolvidos e pá</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-            <div class="masonry-item col-md-6">
-              <div class="bd bgc-white p-20">
-                <div class="layers">
-                  
-                  <div class="layer w-100">
-                    Box 6 Mansory-item
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </main>
@@ -222,6 +281,149 @@
       <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600"><span> <a
             href="#" target="_blank" title="Colorlib">Hawah System</a></span>
       </footer>
+
+      <!-- MODAIS DA PÁGINA -->
+          <!-- Modal cadastro de produto -->
+          <div class="modal fade" id="cadproduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cadastrar Produto</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-row">
+                      <div class="form-group col-md-3"><label for="produtoCategoria">Categoria</label> 
+                        <select id="produtoCategoria"
+                          class="form-control">
+                          <option selected="selected">Celular</option>
+                          <option>Carregador</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3"><label for="produtoCode">Código</label> 
+                        <input type="text" class="form-control" id="produtoCode" placeholder="Código do produto">
+                      </div>
+                      <div class="form-group col-md-5"><label for="produtoName">Nome</label> 
+                        <input type="text" class="form-control" id="produtoName" placeholder="Nome do produto">
+                      </div>
+                    </div>
+                    <div class="form-group"><label for="produtoDescricao">Descrição</label> 
+                      <input type="text" class="form-control" id="produtoDescricao" placeholder="Descreva aqui o seu produto">
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-3"><label for="produtoFornecedor">Fornecedor</label> 
+                        <select id="produtoFornecedor" class="form-control">
+                          <option selected="selected">Fornecedor Name</option>
+                          <option>Fornecedor 2</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3"><label for="inputMarca">Marca</label> 
+                        <select id="produtoMarca" class="form-control">
+                          <option selected="selected">Marca Name</option>
+                          <option>Marca 2</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoQuantidade">Quantidade</label> 
+                        <input type="number" class="form-control" id="produtoQuantidade" placeholder="Quantidade">
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoValor">Valor</label> 
+                        <input type="text" class="form-control" id="produtoValor" placeholder="Valor unitário">
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoValor">Cor</label> 
+                        <input type="text" class="form-control" id="produtoValor" placeholder="Cor do produto">
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="form-row">
+                      <div class="form-group col-md-6"><label for="produtoFile">Arquivo Foto </label> 
+                        <input type="file" class="form-control" id="produtoFile" placeholder="JPEG ou PNG">
+                      </div>
+                      <div class="col-md-4">
+                        <img src="#" alt="Imagem do produto">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary">Cadatrar</button></div>
+              </div>
+            </div>
+          </div>
+          <!-- Fim Modal PRODUTOS-->
+           <!-- Modal cadastro de usuários -->
+           <div class="modal fade" id="caduser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cadastrar Usuário</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-row">
+                      <div class="form-group col-md-3"><label for="produtoCategoria">Categoria</label> 
+                        <select id="produtoCategoria"
+                          class="form-control">
+                          <option selected="selected">Celular</option>
+                          <option>Carregador</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3"><label for="produtoCode">Código</label> 
+                        <input type="text" class="form-control" id="produtoCode" placeholder="Código do produto">
+                      </div>
+                      <div class="form-group col-md-5"><label for="produtoName">Nome</label> 
+                        <input type="text" class="form-control" id="produtoName" placeholder="Nome do produto">
+                      </div>
+                    </div>
+                    <div class="form-group"><label for="produtoDescricao">Descrição</label> 
+                      <input type="text" class="form-control" id="produtoDescricao" placeholder="Descreva aqui o seu produto">
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-3"><label for="produtoFornecedor">Fornecedor</label> 
+                        <select id="produtoFornecedor" class="form-control">
+                          <option selected="selected">Fornecedor Name</option>
+                          <option>Fornecedor 2</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3"><label for="inputMarca">Marca</label> 
+                        <select id="produtoMarca" class="form-control">
+                          <option selected="selected">Marca Name</option>
+                          <option>Marca 2</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoQuantidade">Quantidade</label> 
+                        <input type="number" class="form-control" id="produtoQuantidade" placeholder="Quantidade">
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoValor">Valor</label> 
+                        <input type="text" class="form-control" id="produtoValor" placeholder="Valor unitário">
+                      </div>
+                      <div class="form-group col-md-2"><label for="produtoValor">Cor</label> 
+                        <input type="text" class="form-control" id="produtoValor" placeholder="Cor do produto">
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="form-row">
+                      <div class="form-group col-md-6"><label for="produtoFile">Arquivo Foto </label> 
+                        <input type="file" class="form-control" id="produtoFile" placeholder="JPEG ou PNG">
+                      </div>
+                      <div class="col-md-4">
+                        <img src="#" alt="Imagem do produto">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary">Cadatrar</button></div>
+              </div>
+            </div>
+          </div>
+          <!-- Fim Modal USUÁRIOS-->
+        
     </div>
   </div>
   <script type="text/javascript" src="../js/vendor.js"></script>
