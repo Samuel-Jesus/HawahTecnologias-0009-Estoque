@@ -122,7 +122,7 @@ require_once '../database/conect.php';
         </div>
         <!-- Menu de páginas -->
         <ul class="sidebar-menu scrollable pos-r">
-          <li class="nav-item mT-30 active"><a class="sidebar-link" href="#"><span class="icon-holder"><i class="c-blue-500 ti-package"></i></span>
+          <li class="nav-item mT-30 active"><a class="sidebar-link" href="../src/products.php"><span class="icon-holder"><i class="c-blue-500 ti-package"></i></span>
             <span class="title">Estoque</span></a>
           </li>
           <li class="nav-item ">
@@ -137,16 +137,24 @@ require_once '../database/conect.php';
               <span class="title"><div class="peer "><button type="button" class="btn cur-p btn-outline-dark" ><i class="c-blank-500 ti-user"></i> Adicionar Usuário</button></div></span>
             </a>
           </li>
+          <!-- Menu de configuração -->
           <li class="nav-item dropdown">
-            <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-settings"></i></span>
-              <span class="title">Configurar</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-settings"></i></span>
+                <span class="title">Configurar</span> <span class="arrow"><i class="ti-angle-right"></i></span>
+              </a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item dropdown"><a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-bell"> </i></span>
-                    <span>Histórico de Notificações</span></a></li>
-                  <li class="nav-item dropdown"><a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-user"> </i></span>
-                    <span>Usuários</span></a></li>
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-plus"> </i></span>
+                    <a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-bell"> </i></span>
+                      <span>Histórico de Notificações</span>
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a href="#"><span class="icon-holder"><i class="c-blank-500 ti-user"> </i></span>
+                      <span>Usuários</span>
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a href="#"><span class="icon-holder"><i class="c-blank-500 ti-plus"> </i></span>
                     <span> Cadastros</span><span class="arrow"><i class="ti-angle-right"></i></span>
                     </a>
                     <ul class="dropdown-menu">
