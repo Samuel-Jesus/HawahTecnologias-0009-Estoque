@@ -1,0 +1,3 @@
+* Na pasta 'database' temos os arquivos de consulta e inserção ao Banco de Dados.
+    - 'cadastros' =  aqui tem todos os arquivos de inserção ao BD do sistema.
+    - 'controle' = aqui tem todos os dados de comandos SQL
