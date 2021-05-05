@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../database/conect.php';
+require_once '../src/modais.php';
 
     $sql_fornec = "SELECT * FROM fornecedores AS forn, enderecos AS ende, contatos AS cont WHERE ende.id_fornecedor = forn.id AND cont.id_fornecedor = forn.id ";
     $show_table = $conect->prepare($sql_fornec);
