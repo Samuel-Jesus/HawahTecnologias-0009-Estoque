@@ -1,3 +1,26 @@
+<?php
+// Selecionado dados da tabela Status para o <option> </option>.
+    $sql_status = "SELECT * FROM status";
+    $show_table = $conect->prepare($sql_status);
+    $show_table->execute();
+    $dados_status = $show_table->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql_categ = "SELECT * FROM categorias";
+    $show_table = $conect->prepare($sql_categ);
+    $show_table->execute();
+    $dados_categ = $show_table->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql_marcas = "SELECT * FROM marcas";
+    $show_table = $conect->prepare($sql_marcas);
+    $show_table->execute();
+    $dados_marcas = $show_table->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql_fornec = "SELECT * FROM fornecedores";
+    $show_table = $conect->prepare($sql_fornec);
+    $show_table->execute();
+    $dados_fornec = $show_table->fetchAll(PDO::FETCH_ASSOC); 
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -144,7 +167,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <!-- Exibe a mensagem do resultado da inserção de dados -->
         </div>
-        <form method="POST" action="../database/cadastros/cad_product.php">
+        <form method="POST" action="../database/cadastros/cad_product.php" enctype="multipart/form-data" >
           <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-2"><label for="produtoCode">Código</label>
