@@ -2,27 +2,7 @@
 session_start();
 require_once '../database/conect.php';
 require_once '../src/modais.php';
-
-// Selecionado dados da tabela Status para o <option> </option>.
-    $sql_status = "SELECT * FROM status";
-    $show_table = $conect->prepare($sql_status);
-    $show_table->execute();
-    $dados_status = $show_table->fetchAll(PDO::FETCH_ASSOC);
-
-    $sql_categ = "SELECT * FROM categorias";
-    $show_table = $conect->prepare($sql_categ);
-    $show_table->execute();
-    $dados_categ = $show_table->fetchAll(PDO::FETCH_ASSOC);
-
-    $sql_marcas = "SELECT * FROM marcas";
-    $show_table = $conect->prepare($sql_marcas);
-    $show_table->execute();
-    $dados_marcas = $show_table->fetchAll(PDO::FETCH_ASSOC);
-
-    $sql_fornec = "SELECT * FROM fornecedores";
-    $show_table = $conect->prepare($sql_fornec);
-    $show_table->execute();
-    $dados_fornec = $show_table->fetchAll(PDO::FETCH_ASSOC);               
+              
 ?>
 
 <!DOCTYPE html>
