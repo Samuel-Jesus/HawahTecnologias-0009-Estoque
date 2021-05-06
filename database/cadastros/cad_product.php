@@ -43,8 +43,7 @@ if(!isset($cad_product)){
             // ----------------------------------------------------
             // Movendo a imagem para o diretorio
             move_uploaded_file($_FILES['foto'] ['tmp_name'], $diretorio.$foto);
-
-
+            
         $_SESSION['msg_produtos'] = '<div class="alert alert-success mT-10" role="alert"> <b>Produto</b> cadastrado com sucesso! </div>';
         header("location: ../../src/products.php");
     } else {
