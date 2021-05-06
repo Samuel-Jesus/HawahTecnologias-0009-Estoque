@@ -2,7 +2,13 @@
 session_start();
 require_once '../database/conect.php';
 require_once '../src/modais.php';
-              
+    
+  $sql_produtos = "SELECT prod.*, fornec.nome, categ.name, marc.nome, sta.nome 
+   FROM produtos AS prod, fornecedores AS fornec, categorias AS categ, marcas AS marc, status AS sta
+   WHERE id_marca = marc.id AND id_fornecedor = fornec.id AND id_categoria = categ.id AND id_status = sta.id ";
+  $show_table = $conect->prepare($sql_produtos);
+  $show_table->execute();
+  $dados_produtos = $show_table->fetchAll(PDO::FETCH_ASSOC); 
 ?>
 
 <!DOCTYPE html>
@@ -241,69 +247,49 @@ require_once '../src/modais.php';
                     <thead>
                       <tr>
                         <th>Foto</th>
+                        <th>Código</th>
                         <th>Nome</th>
                         <th>Marca</th>
-                        <th>Código</th>
                         <th>Valor</th>
                         <th>Quantidade</th>
                         <th>Categoria</th>
                         <th>Fornecedor</th>
                         <th>Cor</th>
+                        <th>Status</th>
                         <th>Descrição</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th>Foto</th>
+                        <th>Código</th>
                         <th>Nome</th>
                         <th>Marca</th>
-                        <th>Código</th>
                         <th>Valor</th>
                         <th>Quantidade</th>
                         <th>Categoria</th>
                         <th>Fornecedor</th>
                         <th>Cor</th>
+                        <th>Status</th>
                         <th>Descrição</th>
                       </tr>
                     </tfoot>
                     <tbody>
+                    <?php foreach ($dados_produtos as $index => $dado){ ?> 
                       <tr class="text-center" >
-                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
-                        <td>Capa asdasdasd</td>
-                        <td>Apple</td>
-                        <td >654546</td>
-                        <td>R$25,50</td>
-                        <td>50</td>
-                        <td>Celular</td>
-                        <td>Marquicell</td>
-                        <td>Dourado</td>
-                        <td>Capa com tecido unico com problemas resolvidos e pá</td>
+                        <td><img src="#" alt="Foto do produto" style="max-width: 100px; max-height: 100px;"></td>
+                        <td><?php echo $dado['code']; ?></td>
+                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['valor']; ?></td>
+                        <td><?php echo $dado['quantidade']; ?></td>
+                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['cor']; ?></td>
+                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['descricao']; ?></td>
                       </tr>
-                      <tr class="text-center" >
-                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
-                        <td>Capa asdasdasd</td>
-                        <td>Apple</td>
-                        <td >654546</td>
-                        <td>R$25,50</td>
-                        <td>50</td>
-                        <td>Celular</td>
-                        <td>Marquicell</td>
-                        <td>Dourado</td>
-                        <td>Capa com tecido unico com problemas resolvidos e pá</td>
-                      </tr>
-                      <tr class="text-center" >
-                        <td><img src="../assets/static/images/logo.png" alt="Produto foto"></td>
-                        <td>Capa asdasdasd</td>
-                        <td>Apple</td>
-                        <td >654546</td>
-                        <td>R$25,50</td>
-                        <td>50</td>
-                        <td>Celular</td>
-                        <td>Marquicell</td>
-                        <td>Dourado</td>
-                        <td>Capa com tecido unicó com problemas resolvidos e pá</td>
-                      </tr>
-                      
+                    <?php } ?>
                     </tbody>
                   </table>
                   
