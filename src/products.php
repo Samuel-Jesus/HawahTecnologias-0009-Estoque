@@ -277,7 +277,7 @@ require_once '../src/modais.php';
                     <tbody>
                     <?php foreach ($dados_produtos as $index => $dado){ ?> 
                       <tr class="text-center" >
-                        <td><img src=<?php echo'"../imgs/'.$dado['code']."/".$dado['foto'].'"'; ?> alt="Foto do produto" style="max-width: 100px; max-height: 100px;"></td>
+                        <td><img src=<?php echo'"../imgs/fotos/'.$dado['code']."/".$dado['foto'].'"'; ?> alt="Foto do produto" style="max-width: 100px; max-height: 100px;"></td>
                         <td><?php echo $dado['code']; ?></td>
                         <td><?php echo $dado['nome']; ?></td>
                         <td><?php echo $dado['nome_marc']; ?></td>
