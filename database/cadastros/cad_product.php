@@ -1,6 +1,10 @@
 <?php
 session_start();
 include_once '../conect.php';
+// Definindo o fusorario para o date pegar a data e hora da Bahia.
+date_default_timezone_set("America/Bahia");
+// ---------------------------------------------------------------
+
 $cad_product = filter_input(INPUT_POST, 'cad-product', FILTER_SANITIZE_STRING);
 
 if(!isset($cad_product)){
@@ -16,9 +20,9 @@ if(!isset($cad_product)){
     $status      = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_NUMBER_INT);
     $fornecedor  = filter_input(INPUT_POST, 'fornecedor', FILTER_SANITIZE_NUMBER_INT);
     $foto        = $_FILES['foto']['name'];
-    
+    $data_atual  = date("Y-m-d H:i:s");
 
-    $sql = "CALL cad_products(:foto, :code, :nome, :valor, :qtt, :descri, :cor, :marca, :categoria, :fornecedor, :status )";
+    $sql = "CALL cad_products(:foto, :code, :nome, :valor, :qtt, :descri, :cor, :marca, :categoria, :fornecedor, :status, :data_atual )";
 
     $insert_produtos = $conect->prepare($sql);
     $insert_produtos->bindValue(':foto', $foto);
@@ -32,6 +36,7 @@ if(!isset($cad_product)){
     $insert_produtos->bindValue(':categoria', $categoria);
     $insert_produtos->bindValue(':status', $status);
     $insert_produtos->bindValue(':fornecedor', $fornecedor);
+    $insert_produtos->bindValue(':data_atual', $data_atual);
         
     if (!empty($insert_produtos->execute())) {
           

@@ -21,11 +21,11 @@ CALL cad_provider('Fonecedor', '25646454653', 'Brasil', '71984541254', 'Silverti
 
 -- Cadastrando Produtos
 DELIMITER //
-    CREATE PROCEDURE cad_products(IN foto VARCHAR(100), IN code INT, IN nome VARCHAR(45), IN valor DECIMAL(8,2), IN qtt INT, IN descri VARCHAR(100), IN cor VARCHAR(20), IN id_marca INT, IN id_categoria INT, IN id_fornecedor INT, IN id_status INT)
+    CREATE PROCEDURE cad_products(IN foto VARCHAR(100), IN code INT, IN nome VARCHAR(45), IN valor DECIMAL(8,2), IN qtt INT, IN descri VARCHAR(100), IN cor VARCHAR(20), IN id_marca INT, IN id_categoria INT, IN id_fornecedor INT, IN id_status INT, IN data_atual DATETIME)
         BEGIN
             START TRANSACTION;
-                INSERT INTO produtos (foto, code, nome, valor, quantidade, descricao, cor, id_marca, id_categoria, id_fornecedor, id_status) 
-                VALUES (foto, code, nome, valor, qtt, descri, cor, id_marca, id_categoria, id_fornecedor, id_status);
+                INSERT INTO produtos (foto, code, nome, valor, quantidade, descricao, cor, id_marca, id_categoria, id_fornecedor, id_status, date_cad) 
+                VALUES (foto, code, nome, valor, qtt, descri, cor, id_marca, id_categoria, id_fornecedor, id_status, data_atual);
             COMMIT;
         END; 
         //
