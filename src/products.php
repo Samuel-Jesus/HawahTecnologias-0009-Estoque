@@ -3,7 +3,7 @@ session_start();
 require_once '../database/conect.php';
 require_once '../src/modais.php';
     
-  $sql_produtos = "SELECT prod.*, fornec.nome, categ.name, marc.nome, sta.nome 
+  $sql_produtos = "SELECT fornec.nome AS nome_fornec, categ.name , marc.nome AS nome_marc, sta.nome AS nome_sta, prod.*
    FROM produtos AS prod, fornecedores AS fornec, categorias AS categ, marcas AS marc, status AS sta
    WHERE id_marca = marc.id AND id_fornecedor = fornec.id AND id_categoria = categ.id AND id_status = sta.id ";
   $show_table = $conect->prepare($sql_produtos);
@@ -277,16 +277,16 @@ require_once '../src/modais.php';
                     <tbody>
                     <?php foreach ($dados_produtos as $index => $dado){ ?> 
                       <tr class="text-center" >
-                        <td><img src="#" alt="Foto do produto" style="max-width: 100px; max-height: 100px;"></td>
+                        <td><img src=<?php echo'"../imgs/'.$dado['code']."/".$dado['foto'].'"'; ?> alt="Foto do produto" style="max-width: 100px; max-height: 100px;"></td>
                         <td><?php echo $dado['code']; ?></td>
                         <td><?php echo $dado['nome']; ?></td>
-                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['nome_marc']; ?></td>
                         <td><?php echo $dado['valor']; ?></td>
                         <td><?php echo $dado['quantidade']; ?></td>
-                        <td><?php echo $dado['nome']; ?></td>
-                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['name']; ?></td>
+                        <td><?php echo $dado['nome_fornec']; ?></td>
                         <td><?php echo $dado['cor']; ?></td>
-                        <td><?php echo $dado['nome']; ?></td>
+                        <td><?php echo $dado['nome_sta']; ?></td>
                         <td><?php echo $dado['descricao']; ?></td>
                       </tr>
                     <?php } ?>
