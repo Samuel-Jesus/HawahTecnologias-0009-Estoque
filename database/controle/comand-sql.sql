@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`produtos` (
   `valor` DECIMAL(8,2) NOT NULL,
   `quantidade` INT NOT NULL,
   `descricao` VARCHAR(100) NOT NULL,
-  `cor` CHAR(20) NOT NULL,
+  `cor` CHAR(1) NOT NULL,
   `date_cad` DATETIME NOT NULL,
   `user_cad` VARCHAR(45) NOT NULL,
   `id_marca` INT NOT NULL,
@@ -77,10 +77,10 @@ CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`produtos` (
   `id_fornecedor` INT NOT NULL,
   `id_status` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_produtos_1_idx` (`id_marca` ASC) ,
-  INDEX `fk_produtos_2_idx` (`id_categoria` ASC) ,
-  INDEX `fk_produtos_3_idx` (`id_fornecedor` ASC) ,
-  INDEX `fk_produtos_4_idx` (`id_status` ASC) ,
+  INDEX `fk_produtos_1_idx` (`id_marca` ASC),
+  INDEX `fk_produtos_2_idx` (`id_categoria` ASC),
+  INDEX `fk_produtos_3_idx` (`id_fornecedor` ASC),
+  INDEX `fk_produtos_4_idx` (`id_status` ASC),
   CONSTRAINT `fk_produtos_1`
     FOREIGN KEY (`id_marca`)
     REFERENCES `db_nstore0001001`.`marcas` (`id`)
@@ -130,13 +130,14 @@ CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`enderecos` (
   `id_fornecedor` INT NOT NULL,
   `id_user` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_enderecos_1_idx` (`id_fornecedor` ASC) ,
-  INDEX `fk_enderecos_2_idx` (`id_user` ASC) ,
+  INDEX `fk_enderecos_1_idx` (`id_fornecedor` ASC),
+  INDEX `fk_enderecos_2_idx` (`id_user` ASC),
   CONSTRAINT `fk_enderecos_1`
     FOREIGN KEY (`id_fornecedor`)
     REFERENCES `db_nstore0001001`.`fornecedores` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE NO ACTION)
+  --   ,
   -- CONSTRAINT `fk_enderecos_2`
   --   FOREIGN KEY (`id_user`)
   --   REFERENCES `db_nstore0001001`.`usuarios` (`id`)
@@ -166,18 +167,68 @@ CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`contatos` (
   `id_user` INT NOT NULL,
   `id_fornecedor` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_usuarios_1_idx` (`id_fornecedor` ASC) ,
-  INDEX `fk_usuarios_2_idx` (`id_user` ASC) ,
+  INDEX `fk_usuarios_1_idx` (`id_fornecedor` ASC),
+  INDEX `fk_usuarios_2_idx` (`id_user` ASC),
   CONSTRAINT `fk_usuarios_1`
     FOREIGN KEY (`id_fornecedor`)
     REFERENCES `db_nstore0001001`.`fornecedores` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE NO ACTION)
+  --   ,
   -- CONSTRAINT `fk_usuarios_2`
   --   FOREIGN KEY (`id_user`)
   --   REFERENCES `db_nstore0001001`.`usuarios` (`id`)
   --   ON DELETE NO ACTION
   --   ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `db_nstore0001001`.`notas_fiscais`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`notas_fiscais` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data` DATETIME NOT NULL,
+  `tipo_nota` VARCHAR(25) NOT NULL,
+  `descricao` VARCHAR(100) NOT NULL,
+  `forma_pagamento` VARCHAR(40) NOT NULL,
+  `troco` DECIMAL(8,2) NOT NULL,
+  `total` DECIMAL(8,2) NOT NULL,
+  `valor_pago` DECIMAL(8,2) NOT NULL,
+  `total_itens` INT NOT NULL,
+  `id_user` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_notas_fiscais_1_idx` (`id_user` ASC),
+  CONSTRAINT `fk_notas_fiscais_1`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `db_nstore0001001`.`usuarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `db_nstore0001001`.`produtos_notas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_nstore0001001`.`produtos_notas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_nota` INT NOT NULL,
+  `id_produto` INT NOT NULL,
+  `quantidade` INT NOT NULL,
+  `sub_total` DECIMAL(8,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_produtos_notas_1_idx` (`id_nota` ASC),
+  INDEX `fk_produtos_notas_2_idx` (`id_produto` ASC),
+  CONSTRAINT `fk_produtos_notas_1`
+    FOREIGN KEY (`id_nota`)
+    REFERENCES `db_nstore0001001`.`notas_fiscais` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_produtos_notas_2`
+    FOREIGN KEY (`id_produto`)
+    REFERENCES `db_nstore0001001`.`produtos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
