@@ -2,6 +2,10 @@
 session_start();
 include_once '../conect.php';
 
+//Trazendo a conexão do BD
+$connection = new Connection();
+$connect = $connection ->conecting();
+
 $cad_status = filter_input(INPUT_POST, 'cad_status', FILTER_SANITIZE_STRING);
 
 if(!empty($cad_status)){
@@ -10,7 +14,7 @@ if(!empty($cad_status)){
 
     $sql = "INSERT INTO status (nome) VALUES ( :nome )";
 
-    $insert_status = $conect->prepare($sql); 
+    $insert_status = $connect->prepare($sql); 
     $insert_status->bindValue(':nome', $status);
         if (!empty($insert_status->execute())) {
             $_SESSION['msg_status'] = '<div class="alert alert-success mT-10" role="alert"> Status cadastrado com sucesso! </div>';
