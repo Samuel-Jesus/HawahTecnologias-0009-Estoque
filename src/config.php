@@ -4,22 +4,22 @@ require_once '../database/conect.php';
 require_once '../src/modais.php';
 
     $sql_fornec = "SELECT * FROM fornecedores AS forn, enderecos AS ende, contatos AS cont WHERE ende.id_fornecedor = forn.id AND cont.id_fornecedor = forn.id ";
-    $show_table = $conect->prepare($sql_fornec);
+    $show_table = $connect->prepare($sql_fornec);
     $show_table->execute();
     $dados_fornec = $show_table->fetchAll(PDO::FETCH_ASSOC); 
 
     $sql_status = "SELECT * FROM status";
-    $show_table = $conect->prepare($sql_status);
+    $show_table = $connect->prepare($sql_status);
     $show_table->execute();
     $dados_status = $show_table->fetchAll(PDO::FETCH_ASSOC);
 
     $sql_categ = "SELECT * FROM categorias";
-    $show_table = $conect->prepare($sql_categ);
+    $show_table = $connect->prepare($sql_categ);
     $show_table->execute();
     $dados_categ = $show_table->fetchAll(PDO::FETCH_ASSOC);
 
     $sql_marcas = "SELECT * FROM marcas";
-    $show_table = $conect->prepare($sql_marcas);
+    $show_table = $connect->prepare($sql_marcas);
     $show_table->execute();
     $dados_marcas = $show_table->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -83,7 +83,9 @@ require_once '../src/modais.php';
       }
     }
   </style>
-  <link href="../css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mystyle.css">
+  <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="app">
@@ -292,6 +294,12 @@ require_once '../src/modais.php';
                             <td><?php echo $dado['contato']; ?></td>
                             <td><span class="text-success"><?php echo $dado['registro']; ?></span></td>
                             <td><span><?php echo $dado['rua'].", ".$dado['bairro']. ", ".$dado['cidade']."/".$dado['estado']; ?></span></td>
+                            <td data-id_element='<?php echo $dado['id'] ?>' data-name_table="fornecedores">
+                              <span>
+                                <button title="Deletar" class="btn btn-outline-danger delete-item" data-toggle="modal" data-target="#confirma-delete"><i class="fa fa-trash-o"></i></button> 
+                                <button title="Editar" class="btn btn-outline-info ml-2"><i class="fa fa-edit"></i></button>
+                              </span> 
+                            </td>
                           </tr>
                           <?php } ?>
                         </tbody>
@@ -325,7 +333,15 @@ require_once '../src/modais.php';
                         <tbody>
                         <?php foreach ($dados_marcas as $index => $dado){ ?>
                           <tr>
-                            <td class="text-info"><?php echo $dado['nome']; ?></td>
+                            <td class="text-info">
+                              <div class="d-flex justify-content-between">
+                                <span><?php echo $dado['nome']; ?></span>
+                                <span>
+                                  <button title="Deletar" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirma-delete"><i class="fa fa-trash-o"></i></button> 
+                                  <button title="Editar" class="btn btn-outline-info ml-2"><i class="fa fa-edit"></i></button>
+                                </span>  
+                              </div>
+                            </td>
                           </tr>
                         <?php } ?>
                         </tbody>
@@ -358,7 +374,15 @@ require_once '../src/modais.php';
                         <tbody>
                         <?php foreach ($dados_categ as $index => $dado){ ?>
                           <tr>
-                            <td class="text-info"><?php echo $dado['name']; ?></td>
+                            <td class="text-info">
+                              <div class="d-flex justify-content-between">
+                                <span><?php echo $dado['name']; ?></span>
+                                <span>
+                                  <button title="Deletar" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirma-delete"><i class="fa fa-trash-o"></i></button> 
+                                  <button title="Editar" class="btn btn-outline-info ml-2"><i class="fa fa-edit"></i></button>
+                                </span> 
+                              </div>
+                            </td>
                           </tr>
                         <?php } ?>
                         </tbody>
@@ -391,7 +415,15 @@ require_once '../src/modais.php';
                         <tbody>
                         <?php foreach ($dados_status as $index => $dado){ ?>
                           <tr>
-                            <td><span class="badge bgc-blue-50 c-green-700 p-10 lh-0 tt-c badge-pill"><?php echo $dado['nome']; ?></span></td>
+                            <td>
+                              <div class="d-flex justify-content-between">
+                                <span class="badge bgc-blue-50 c-green-700 p-10  tt-c badge-pill "><?php echo $dado['nome']; ?></span>
+                                <span>
+                                  <button title="Deletar" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirma-delete" ><i class="fa fa-trash-o"></i></button> 
+                                  <button title="Editar" class="btn btn-outline-info ml-2"><i class="fa fa-edit"></i></button>
+                                </span>
+                              </div>
+                            </td>
                           </tr>
                         <?php } ?>
                         </tbody>
@@ -421,133 +453,9 @@ require_once '../src/modais.php';
     </div>
   </div>
 
-  <!-- MODAIS -->
-
-  <!-- Modal Cad-Fornecedor -->
-  <div class="modal fade" id="cad_fornecedor" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cadastrar Fornecedor</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-      <form method="POST" action="../database/cadastros/cad-provider.php">
-        <div class="modal-body">
-            <div class="form-row">
-              <div class="form-group col-md-7"><label for="fornName">Nome</label> 
-                <input type="text" class="form-control" id="fornName" placeholder="Nome/Razão Social" name="nome">
-              </div>
-              <div class="form-group col-md-5"><label for="fornContato">Contato</label> 
-                <input type="text" class="form-control" id="fornContato" placeholder="( )" name="contato">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-7"><label for="fornRegist">Registro</label> 
-                <input type="text" class="form-control" id="fornRegist" placeholder="CPF/CNPJ" name="registro">
-              </div>
-              <div class="form-group col-md-5"><label for="fornOrigem">Origem</label> 
-                <input type="text" class="form-control" id="fornOrigem" placeholder="Nome do site/país de Origem" name="origem">
-              </div>
-            </div>
-            <div class="form-row">
-              <label for="inputAddress">Endereço</label> 
-              <input type="text" class="form-control mB-10" id="inputAddress" placeholder="Rua" name="rua">
-              <input type="text" class="form-control mB-10" placeholder="Bairro" name="bairro">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control mB-10" placeholder="Cidade" name="cidade">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" placeholder="Estado" name="estado">
-              </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> 
-          <button type="submit" class="btn btn-primary" name="cad_fornecedor" value="cad_fornecedor">Salvar Cadastro</button>
-        </div>
-      </form>
-    </div>
-    </div>
-  </div>
-  <!-- Modal Cad-Marca -->
-  <div class="modal fade" id="cad_marca" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cadastrar Marca</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-      <form method="POST" action="../database/cadastros/cad-brand.php">
-        <div class="modal-body">
-            <div class="form-row">
-              <div class="form-group col-md-7"><label for="fornName">Nome da Marca</label> 
-                <input type="text" class="form-control" id="fornName" placeholder="Marca" name="marca">
-              </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> 
-          <button type="submit" class="btn btn-primary" name="cad_marca" value="cad_marca">Salvar Marca</button>
-        </div>
-      </form>
-    </div>
-    </div>
-  </div>
-  <!-- Modal Cad-Categoria -->
-  <div class="modal fade" id="cad_categoria" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cadastrar Categoria</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-      <form method="POST" action="../database/cadastros/cad-category.php">
-        <div class="modal-body">
-            <div class="form-row">
-              <div class="form-group col-md-7"><label for="categName">Nome da Categoria</label> 
-                <input type="text" class="form-control" id="categName" placeholder="Categoria" name="categoria">
-              </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> 
-          <button type="submit" class="btn btn-primary" name="cad_categoria" value="cad_categoria" >Salvar Categoria</button>
-        </div>
-      </form>
-    </div>
-    </div>
-  </div>
-  <!-- Modal Cad-Status -->
-  <div class="modal fade" id="cad_status" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cadastrar Status</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-      <form method="POST" action="../database/cadastros/cad-status.php">
-        <div class="modal-body">
-            <div class="form-row">
-              <div class="form-group col-md-8"><label for="statusName">Nome do Status</label> 
-              <input type="text" class="form-control" id="statusName" placeholder="Status" name="status"></div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> 
-          <button type="submit" class="btn btn-primary" name="cad_status" value="cad_status">Salvar Status</button>
-        </div>
-      </form>
-    </div>
-    </div>
-  </div>
-
-
   <script type="text/javascript" src="../js/vendor.js"></script>
   <script type="text/javascript" src="../js/bundle.js"></script>
+  <script type="text/javascript" src="../scripts/delete-item.js"></script>
 </body>
 
 </html>
