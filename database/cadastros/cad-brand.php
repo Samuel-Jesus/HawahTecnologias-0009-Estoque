@@ -2,6 +2,10 @@
 session_start();
 include_once '../conect.php';
 
+//Trazendo a conexão do BD
+$connection = new Connection();
+$connect = $connection ->conecting();
+
 $cad_marca = filter_input(INPUT_POST, 'cad_marca', FILTER_SANITIZE_STRING);
 if (!empty($cad_marca)) {
     //Guardando dados do formulário nas variáveis.
@@ -9,7 +13,7 @@ if (!empty($cad_marca)) {
 
     $sql = "INSERT INTO marcas (nome) VALUES ( :marca )";
 
-    $insert_marca = $conect->prepare($sql);
+    $insert_marca = $connect->prepare($sql);
     $insert_marca->bindValue(':marca', $marca);
 
         if (!empty($insert_marca->execute())) {
