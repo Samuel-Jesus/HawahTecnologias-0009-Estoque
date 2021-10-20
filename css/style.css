@@ -1839,6 +1839,7 @@ a.fc-more:hover {
     border-radius: 5px;
     padding-left: 15px;
     margin-right: 5px;
+    width: 50vw;
 }
 
 /* Jeito para navegador */
