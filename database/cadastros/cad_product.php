@@ -1,6 +1,11 @@
 <?php
 session_start();
 include_once '../conect.php';
+
+//Trazendo a conexão do BD
+$connection = new Connection();
+$connect = $connection ->conecting();
+
 // Definindo o fusorario para o date pegar a data e hora da Bahia.
 date_default_timezone_set("America/Bahia");
 // ---------------------------------------------------------------
@@ -8,7 +13,8 @@ date_default_timezone_set("America/Bahia");
 $cad_product = filter_input(INPUT_POST, 'cad-product', FILTER_SANITIZE_STRING);
 
 if(!isset($cad_product)){
-    //Guardando dados do formulário nas variáveis.
+    
+    // Guardando dados do formulário nas variáveis.
     $code        = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_STRING);
     $name        = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $valor       = filter_input(INPUT_POST, 'valor', FILTER_SANITIZE_NUMBER_FLOAT);
@@ -22,39 +28,47 @@ if(!isset($cad_product)){
     $foto        = $_FILES['foto']['name'];
     $data_atual  = date("Y-m-d H:i:s");
 
-    $sql = "CALL cad_products(:foto, :code, :nome, :valor, :qtt, :descri, :cor, :marca, :categoria, :fornecedor, :status, :data_atual )";
-
-    $insert_produtos = $conect->prepare($sql);
-    $insert_produtos->bindValue(':foto', $foto);
-    $insert_produtos->bindValue(':code', $code);
-    $insert_produtos->bindValue(':nome', $name);
-    $insert_produtos->bindValue(':valor', $valor);
-    $insert_produtos->bindValue(':qtt', $quantidade);
-    $insert_produtos->bindValue(':descri', $desc);
-    $insert_produtos->bindValue(':cor', $cor);
-    $insert_produtos->bindValue(':marca', $marca);
-    $insert_produtos->bindValue(':categoria', $categoria);
-    $insert_produtos->bindValue(':status', $status);
-    $insert_produtos->bindValue(':fornecedor', $fornecedor);
-    $insert_produtos->bindValue(':data_atual', $data_atual);
+    if($code != "10"){
         
-    if (!empty($insert_produtos->execute())) {
-          
-            // Criando caminho do diretorio para inserir as pastas criadas (utiliza o codi para nomear as pastas).
-            $diretorio = '../../imgs/fotos/'.$code.'/';
-            // ----------------------------------------------------
-            // Criando pasta para cada produto através do id
-            mkdir($diretorio, 0755);
-            // ----------------------------------------------------
-            // Movendo a imagem para o diretorio(Fazendo Upload).
-            move_uploaded_file($_FILES['foto'] ['tmp_name'], $diretorio.$foto);
-            
-        $_SESSION['msg_produtos'] = '<div class="alert alert-success mT-10" role="alert"> <b>Produto</b> cadastrado com sucesso! </div>';
+         $sql = "CALL cad_products(:foto, :code, :nome, :valor, :qtt, :descri, :cor, :marca, :categoria, :fornecedor, :status, :data_atual )";
+
+            $insert_produtos = $connect->prepare($sql);
+            $insert_produtos->bindValue(':foto', $foto);
+            $insert_produtos->bindValue(':code', $code);
+            $insert_produtos->bindValue(':nome', $name);
+            $insert_produtos->bindValue(':valor', $valor);
+            $insert_produtos->bindValue(':qtt', $quantidade);
+            $insert_produtos->bindValue(':descri', $desc);
+            $insert_produtos->bindValue(':cor', $cor);
+            $insert_produtos->bindValue(':marca', $marca);
+            $insert_produtos->bindValue(':categoria', $categoria);
+            $insert_produtos->bindValue(':status', $status);
+            $insert_produtos->bindValue(':fornecedor', $fornecedor);
+            $insert_produtos->bindValue(':data_atual', $data_atual);
+                
+            if (!empty($insert_produtos->execute())) {
+                
+                    // Criando caminho do diretorio para inserir as pastas criadas (utiliza o codi para nomear as pastas).
+                    $diretorio = '../../imgs/fotos/'.$code.'/';
+                    // ----------------------------------------------------
+                    // Criando pasta para cada produto através do id
+                    mkdir($diretorio, 0755);
+                    // ----------------------------------------------------
+                    // Movendo a imagem para o diretorio(Fazendo Upload).
+                    move_uploaded_file($_FILES['foto'] ['tmp_name'], $diretorio.$foto);
+                    
+                $_SESSION['msg_produtos'] = '<div class="alert alert-success mT-10" role="alert"> <b>Produto</b> cadastrado com sucesso! </div>';
+                header("location: ../../src/products.php");
+            } else {
+                $_SESSION['msg_produtos'] = '<div class="alert alert-danger mT-10" role="alert"> Erro ao cadastrar este <b>Produto</b>, verifique os campos ou contate o <b>suporte</b> </div>';
+                header("location: ../../src/products.php");
+            }
+
+        $_SESSION['msg_produtos'] = '<div class="alert alert-danger mT-10" role="alert"> Codigo do <b>Produto</b> já existe, tente outro ou siga a sequência.</div>';
         header("location: ../../src/products.php");
-    } else {
-        $_SESSION['msg_produtos'] = '<div class="alert alert-danger mT-10" role="alert"> Erro ao cadastrar este <b>Produto</b>, verifique os campos ou contate o <b>suporte</b> </div>';
-        header("location: ../../src/products.php");
-    }    
+    }
+
+       
 
 }else{
     $_SESSION['msg_produtos'] = '<div class="alert alert-danger mT-10" role="alert"> Erro ao cadastrar este Produto, verifique os campos ou contate o suporte </div>';
