@@ -1,12 +1,22 @@
 <?php
-session_start();
-require_once '../database/conect.php';
-require_once '../src/modais.php';
+include_once '../database/conect.php';
+  session_start();
+  //Conectando ao BD
+  $connection = new Connection();
+  $connect = $connection ->conecting();
+  
+  // Condição se tiver logado
+  if(isset($_SESSION['user']) && is_array($_SESSION['user'])){
+    $user_id = $_SESSION['user'][0];
+    $acess = $_SESSION['user'][1];
+  }else{
+   header('Location: http://localhost/0009-Sistema%20de%20estoque-NS/src/signin.php');
+  }
     
   $sql_produtos = "SELECT fornec.nome AS nome_fornec, categ.name , marc.nome AS nome_marc, sta.nome AS nome_sta, prod.*
    FROM produtos AS prod, fornecedores AS fornec, categorias AS categ, marcas AS marc, status AS sta
    WHERE id_marca = marc.id AND id_fornecedor = fornec.id AND id_categoria = categ.id AND id_status = sta.id ";
-  $show_table = $conect->prepare($sql_produtos);
+  $show_table = $connect->prepare($sql_produtos);
   $show_table->execute();
   $dados_produtos = $show_table->fetchAll(PDO::FETCH_ASSOC); 
 ?>
@@ -16,61 +26,9 @@ require_once '../src/modais.php';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <title>Inicio</title>
-  <style>
-    #loader {
-      transition: all .3s ease-in-out;
-      opacity: 1;
-      visibility: visible;
-      position: fixed;
-      height: 100vh;
-      width: 100%;
-      background: #fff;
-      z-index: 90000
-    }
-
-    #loader.fadeOut {
-      opacity: 0;
-      visibility: hidden
-    }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      position: absolute;
-      top: calc(50% - 20px);
-      left: calc(50% - 20px);
-      background-color: #333;
-      border-radius: 100%;
-      -webkit-animation: sk-scaleout 1s infinite ease-in-out;
-      animation: sk-scaleout 1s infinite ease-in-out
-    }
-
-    @-webkit-keyframes sk-scaleout {
-      0% {
-        -webkit-transform: scale(0)
-      }
-
-      100% {
-        -webkit-transform: scale(1);
-        opacity: 0
-      }
-    }
-
-    @keyframes sk-scaleout {
-      0% {
-        -webkit-transform: scale(0);
-        transform: scale(0)
-      }
-
-      100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: 0
-      }
-    }
-  </style>
-  <link href="../css/style.css" rel="stylesheet">
+  <title>NS - Meu Estoque</title>
+  <link rel="stylesheet" href="../css/mystyle.css">
+  <link rel="stylesheet" href="../css/style.css" >
 </head>
 
 <body class="app">
@@ -92,23 +50,26 @@ require_once '../src/modais.php';
         <!-- Logo da barra de Menu Lateral -->
         <div class="sidebar-logo">
           <div class="peers ai-c fxw-nw">
-            <div class="peer peer-greed"><a class="sidebar-link td-n" href="index.html">
+            <div class="peer peer-greed">
+              <a class="sidebar-link td-n" href="products.php">
                 <div class="peers ai-c fxw-nw">
                   <div class="peer">
                     <div class="logo"><img src="../assets/static/images/logo.png" alt=""></div>
                   </div>
                   <div class="peer peer-greed">
-                    <h5 class="lh-1 mB-0 logo-text">NETO STORE</h5>
+                    <h5 class="lh-1 mB-0 logo-text"> NETO STORE System</h5>
                   </div>
                 </div>
-              </a></div>
+              </a>
+            </div>
             <div class="peer">
-              <div class="mobile-toggle sidebar-toggle"><a href="" class="td-n"><i class="ti-arrow-circle-left"></i></a>
+              <div class="mobile-toggle sidebar-toggle">
+                <a href="" class="td-n"><i class="ti-arrow-circle-left"></i></a>
               </div>
             </div>
           </div>
         </div>
-        <!-- Menu de páginas -->
+        <!-- Menu lateral das páginas -->
         <ul class="sidebar-menu scrollable pos-r">
           <li class="nav-item mT-30 active"><a class="sidebar-link" href="#"><span class="icon-holder"><i class="c-blue-500 ti-package"></i></span>
             <span class="title">Estoque</span></a>
@@ -131,8 +92,11 @@ require_once '../src/modais.php';
                 <ul class="dropdown-menu">
                   <li class="nav-item dropdown"><a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-plus"> </i></span>
                     <span>Histórico de Notificações</span></a></li>
-                  <li class="nav-item dropdown"><a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-user"> </i></span>
-                    <span>Usuários</span></a></li>
+                  <li class="nav-item dropdown">
+                    <a href="user-page.html"><span class="icon-holder"><i class="c-blank-500 ti-user"> </i></span>
+                      <span>Usuários</span>
+                    </a>
+                  </li>
                   <li class="nav-item dropdown">
                     <a href="javascript:void(0);"><span class="icon-holder"><i class="c-blank-500 ti-plus"> </i></span>
                     <span> Cadastros</span><span class="arrow"><i class="ti-angle-right"></i></span>
@@ -162,7 +126,11 @@ require_once '../src/modais.php';
              <i class="search-icon-close ti-close pdd-right-10"></i></a></li>
             <li class="search-input"><input class="form-control" type="text" placeholder="Buscar"></li>
             <li>
-              <a href="pdv.html"><div class="peer"><button type="button" class="btn cur-p btn-outline-primary"><i class="c-blank-500 ti-shopping-cart"></i> Iniciar Vendas</button></div></a>
+              <a href="pdv.php">
+                <div class="peer">
+                  <button type="button" class="btn cur-p btn-outline-primary"><i class="c-blank-500 ti-shopping-cart"></i> Iniciar Vendas</button>
+                </div>
+              </a>
             </li>
           </ul>
           <!-- Icones da direita do Menu -->
@@ -201,27 +169,30 @@ require_once '../src/modais.php';
                       </a></li>
                   </ul>
                 </li>
-                <li class="pX-20 pY-15 ta-c bdT"><span><a href="" class="c-grey-600 cH-blue fsz-sm td-n">Ver todas
-                      Notificações <i class="ti-angle-right fsz-xs mL-10"></i></a></span></li>
+                <li class="pX-20 pY-15 ta-c bdT">
+                  <span>
+                    <a href="" class="c-grey-600 cH-blue fsz-sm td-n">Ver todas Notificações <i class="ti-angle-right fsz-xs mL-10"></i></a>
+                  </span>
+                </li>
               </ul>
             </li>
             <!-- Icone de Perfil -->
-            <li class="dropdown"><a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1"
-                data-toggle="dropdown">
-                <div class="peer mR-10"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg"
-                    alt=""></div>
-                <div class="peer"><span class="fsz-sm c-grey-900">Meu Nome</span></div>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
+                <div class="peer mR-10"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="imagem perfil"></div>
+                <div class="peer"><span class="fsz-sm c-grey-900"><?php echo $_SESSION['user'][2] ?></span></div>
               </a>
               <ul class="dropdown-menu fsz-sm">
                 <li><a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-settings mR-10"></i>
-                    <span>Configurar</span></a></li>
+                      <span>Configurar</span></a></li>
                 <li><a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-user mR-10"></i>
-                    <span>Perfil</span></a></li>
-                <!-- <li><a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-email mR-10"></i>
-                    <span>Messages</span></a></li> -->
+                      <span>Perfil</span></a></li>
+          <!-- <li><a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-email mR-10"></i>
+                      <span>Messages</span></a></li> -->
                 <li role="separator" class="divider"></li>
-                <li><a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-power-off mR-10"></i>
-                    <span>Sair</span></a></li>
+                <li><a href="../scripts/logout.php" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-power-off mR-10"></i>
+                    <span>Sair</span></a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -240,7 +211,7 @@ require_once '../src/modais.php';
                   <?php 
                     if (isset($_SESSION['msg_produtos'])){
                         echo $_SESSION['msg_produtos'];
-                        unset($_SESSION['msg_produtos']);
+                        unset($_SESSION['msg_produtos']);    
                     }
                    ?>
                   <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -257,13 +228,14 @@ require_once '../src/modais.php';
                         <th>Cor</th>
                         <th>Status</th>
                         <th>Descrição</th>
+                        <th>&nbsp;</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th>Foto</th>
                         <th>Código</th>
-                        <th>Nome</th>
+                        <th><?php echo $acess; ?></th>
                         <th>Marca</th>
                         <th>Valor</th>
                         <th>Quantidade</th>
@@ -272,6 +244,7 @@ require_once '../src/modais.php';
                         <th>Cor</th>
                         <th>Status</th>
                         <th>Descrição</th>
+                        <th>&nbsp;</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -288,6 +261,12 @@ require_once '../src/modais.php';
                         <td><?php echo $dado['cor']; ?></td>
                         <td><?php echo $dado['nome_sta']; ?></td>
                         <td><?php echo $dado['descricao']; ?></td>
+                        <td>
+                          <div class="d-flex ">
+                            <button title="Deletar" class="btn btn-outline-danger"><i class="fa fa-trash-o"></i></button> 
+                            <button title="Editar" class="btn btn-outline-info ml-2"><i class="fa fa-edit"></i></button>  
+                          </div> 
+                        </td>
                       </tr>
                     <?php } ?>
                     </tbody>
@@ -306,6 +285,10 @@ require_once '../src/modais.php';
 
     </div>
   </div>
+    <?php 
+      require_once '../src/modais.php';
+    ?>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/vendor.js"></script>
   <script type="text/javascript" src="../js/bundle.js"></script>
 </body>
