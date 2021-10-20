@@ -1,6 +1,11 @@
 <?php
 session_start();
 include_once '../conect.php';
+
+//Trazendo a conexão do BD
+$connection = new Connection();
+$connect = $connection ->conecting();
+
 $cad_categoria = filter_input(INPUT_POST, 'cad_categoria', FILTER_SANITIZE_STRING);
 if (!empty($cad_categoria)) {
     //Guardando dados do formulário nas variáveis.
@@ -8,7 +13,7 @@ if (!empty($cad_categoria)) {
 
     $sql = "INSERT INTO categorias (name) VALUES ( :categoria )";
 
-    $insert_categ = $conect->prepare($sql);
+    $insert_categ = $connect->prepare($sql);
     $insert_categ->bindValue(':categoria', $categoria);
 
         if (!empty($insert_categ->execute())) {
