@@ -1,6 +1,9 @@
 <?php
 session_start();
 include_once '../conect.php';
+//Trazendo a conexão do BD
+$connection = new Connection();
+$connect = $connection ->conecting();
 
 $cad_fornecedor = filter_input(INPUT_POST, 'cad_fornecedor', FILTER_SANITIZE_STRING);
 if (!empty($cad_fornecedor)) {
@@ -18,7 +21,7 @@ if (!empty($cad_fornecedor)) {
 
     $sql = "CALL cad_provider(:nome, :registro, :origem, :contato, :rua, :bairro, :cidade, :estado )";
     
-    $insert_fornec = $conect->prepare($sql);
+    $insert_fornec = $connect->prepare($sql);
     $insert_fornec->bindValue(':nome', $nome);
     $insert_fornec->bindValue(':registro', $registro);
     $insert_fornec->bindValue(':origem', $origem);
